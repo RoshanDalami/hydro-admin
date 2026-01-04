@@ -103,10 +103,9 @@ const CustomEditor = ({
                 `}</style>
 
                 <CKEditor
-                    editor={ClassicEditor}
+                    editor={ClassicEditor as any}
                     data={value}
                     config={editorConfig}
-
                     onChange={(event, editor) => {
                         onChange?.(editor.getData());
                     }}
