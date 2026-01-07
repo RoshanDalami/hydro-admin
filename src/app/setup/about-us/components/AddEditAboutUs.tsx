@@ -59,7 +59,7 @@ function AddEditAboutUs({
   const isPending = isCreating || isUpdating;
 
   return (
-    <div className="p-5 flex flex-col gap-6">
+    <div className="p-5 flex flex-col gap-6 w-[50vw]">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-bold">
           {isEditMode ? "Edit About Us" : "Add About Us"}

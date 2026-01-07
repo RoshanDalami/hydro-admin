@@ -280,7 +280,36 @@ export const apiUrls = {
         getById: {
             method: "GET",
             url: "/project"
+        },
+        update: {
+            method: "PATCH",
+            url: "/project"
+        },
+        deleteById: {
+            method: "DELETE",
+            url: "/project"
+        },
+        deleteImageById: {
+            method: "DELETE",
+            url: "/project/image"
+        }
+    },
+    userMessage: {
+        get: {
+            method: "GET",
+            url: "/user-message"
+        },
+        getMessageById: {
+            method: "GET",
+            url: "/user-message"
+        },
+        update: {
+            method: "PATCH",
+            url: "/user-message"
+        },
+        delete: {
+            method: "DELETE",
+            url: "/user-message"
         }
     }
-
 }

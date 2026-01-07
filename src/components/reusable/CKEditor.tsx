@@ -14,6 +14,45 @@ interface CustomEditorProps {
     height?: string | number;
 }
 
+// Custom upload adapter for Base64 image encoding
+class Base64UploadAdapter {
+    loader: any;
+
+    constructor(loader: any) {
+        this.loader = loader;
+    }
+
+    upload() {
+        return this.loader.file.then((file: File) => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = () => {
+                resolve({ default: reader.result });
+            };
+            
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            
+            reader.onabort = () => {
+                reject();
+            };
+            
+            reader.readAsDataURL(file);
+        }));
+    }
+
+    abort() {
+        // Handle abort if needed
+    }
+}
+
+function Base64UploadAdapterPlugin(editor: any) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+        return new Base64UploadAdapter(loader);
+    };
+}
+
 const CustomEditor = ({
     value = '',
     onChange,
@@ -29,15 +68,53 @@ const CustomEditor = ({
     const defaultToolbar = [
         'undo', 'redo', '|',
         'heading', '|',
-        'bold', 'italic', 'strikethrough', 'code', '|',
-        'bulletedList', 'numberedList', 'todoList', '|',
-        'link', 'mediaEmbed', 'insertTable', 'blockQuote', '|',
-        'removeFormat'
+        'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+        'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 'code', 'removeFormat', '|',
+        'link', 'imageUpload', 'mediaEmbed', 'insertTable', 'blockQuote', 'codeBlock', 'horizontalLine', '|',
+        'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
+        'alignment'
     ];
 
     const editorConfig = {
         placeholder: placeholder || 'Type your content here...',
         toolbar: config?.toolbar || defaultToolbar,
+        extraPlugins: [Base64UploadAdapterPlugin],
+        image: {
+            toolbar: [
+                'imageTextAlternative', 'toggleImageCaption', '|',
+                'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', '|',
+                'linkImage'
+            ],
+            resizeOptions: [
+                {
+                    name: 'resizeImage:original',
+                    label: 'Original',
+                    value: null
+                },
+                {
+                    name: 'resizeImage:25',
+                    label: '25%',
+                    value: '25'
+                },
+                {
+                    name: 'resizeImage:50',
+                    label: '50%',
+                    value: '50'
+                },
+                {
+                    name: 'resizeImage:75',
+                    label: '75%',
+                    value: '75'
+                }
+            ],
+            styles: [
+                'full',
+                'side',
+                'alignLeft',
+                'alignCenter',
+                'alignRight'
+            ]
+        },
         ...config
     };
 
@@ -53,7 +130,7 @@ const CustomEditor = ({
             )}
 
             <div className={cn(
-                "group relative rounded-md border border-input bg-background ring-offset-background w-full max-w-xl mx-auto",
+                "group relative rounded-md border border-input bg-background ring-offset-background w-full min-w-0",
                 "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
                 error && "border-destructive focus-within:ring-destructive",
                 "ck-editor-container"

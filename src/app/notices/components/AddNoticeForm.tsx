@@ -1,11 +1,13 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useCreateNotice } from '@/api/hooks/notice.hook'
+import { useCreateNotice, useUpdateNotice } from '@/api/hooks/notice.hook'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import FormModalHeader from '@/components/reusable/FormModalHeader'
+import { TNotice } from '@/types/notice.type'
 type NoticeFormValues = {
     title: string
     content: string
@@ -17,12 +19,20 @@ type NoticeFormValues = {
 function AddNoticeForm({
     onClose,
     onSuccess,
+    isEdit,
+    editId,
+    editData,
+    refetch
 }: {
     onClose: () => void
-    onSuccess: () => void
+    onSuccess: () => void,
+    isEdit: boolean,
+    editId: number | null,
+    editData: TNotice | null,
+    refetch:() => {}
 }) {
     const { mutateAsync: createNotice, isPending } = useCreateNotice()
-
+    const { mutateAsync: updateNotice, isPending: updatePending } = useUpdateNotice()
     const {
         register,
         handleSubmit,
@@ -30,6 +40,16 @@ function AddNoticeForm({
         formState: { errors },
     } = useForm<NoticeFormValues>()
 
+    useEffect(() => {
+        if (editData) {
+            reset({
+                title: editData.title,
+                content: editData.content,
+                publishDate: editData.publishDate,
+                time: editData.time,
+            })
+        }
+    }, [editData])
     const onSubmit = async (data: NoticeFormValues) => {
         try {
             const formData = new FormData()
@@ -44,8 +64,11 @@ function AddNoticeForm({
                     formData.append('medias', file)
                 })
             }
+            if (isEdit) {
+                formData.append('id', editId?.toString() || '')
+            }
 
-            await createNotice(formData)
+            await isEdit ? updateNotice(formData) : createNotice(formData)
 
             reset()
             onSuccess()
@@ -58,7 +81,7 @@ function AddNoticeForm({
     return (
         <div className="p-6 w-[50vw]">
             <FormModalHeader
-                title="Add Notice"
+                title={isEdit ? "Edit Notice" : "Add Notice"}
             />
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -114,7 +137,7 @@ function AddNoticeForm({
                         </div>
                     </div>
 
-                    <div className="space-y-1">
+                    {!isEdit && <div className="space-y-1">
                         <Label htmlFor="medias">Medias</Label>
                         <Input
                             id="medias"
@@ -126,7 +149,7 @@ function AddNoticeForm({
                         <p className="text-xs text-muted-foreground">
                             Supports images and PDF files
                         </p>
-                    </div>
+                    </div>}
                 </div>
 
                 <div className="flex justify-end gap-3">
@@ -140,9 +163,9 @@ function AddNoticeForm({
 
                     <Button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || updatePending}
                     >
-                        {isPending ? 'Submitting...' : 'Submit'}
+                        {isPending || updatePending ? 'Submitting...' : 'Submit'}
                     </Button>
                 </div>
             </form>

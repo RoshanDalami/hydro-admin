@@ -25,3 +25,28 @@ export const GetProjectById = async (id: number) => {
     )
     return response?.data
 }
+
+export const UpdateProject = async (id: number, payload: FormData) => {
+    const response = await mainApiWrapper(
+        apiUrls.project.update.method,
+        apiUrls.project.update.url + `/${id}`,
+        payload
+    )
+    return response
+}
+
+export const DeleteProject = async (id: number) => {
+    const response = await mainApiWrapper(
+        apiUrls.project.deleteById.method,
+        apiUrls.project.deleteById.url + `/${id}`,
+    )
+    return response
+}
+
+export const DeleteProjectImageById = async (id: number) => {
+    const resposne: TProjectCreateResponse = await mainApiWrapper(
+        apiUrls.project.deleteImageById.method,
+        apiUrls.project.deleteImageById.url + `/${id}`,
+    )
+    return resposne
+}
