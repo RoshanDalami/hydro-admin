@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import {
-  LayoutDashboard,
+  MessageCircleMoreIcon,
   Users,
   BarChart3,
   FolderOpen,
@@ -10,7 +10,7 @@ import {
   ChevronDown,
   Cog,
   ImagePlus,
-  FileText
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -71,6 +71,7 @@ const mainNavItems: NavItemType[] = [
     subItems: [
       { title: "About Us", href: "/setup/about-us" },
       { title: "Logo", href: "/setup/logo" },
+      { title: "Banner", href: "/setup/banner" },
     ],
   },
   {
@@ -93,7 +94,7 @@ const mainNavItems: NavItemType[] = [
     subItems: [
       { title: "Gallery Category", href: "/gallery/gallery-category" },
       { title: "Gallery Images", href: "/gallery/gallery-images" },
-    ]
+    ],
   },
   {
     title: "Notices",
@@ -106,7 +107,12 @@ const mainNavItems: NavItemType[] = [
     icon: FolderOpen,
     href: "/projects",
     badge: null,
-
+  },
+  {
+    title: "User Messages",
+    icon: MessageCircleMoreIcon,
+    href: "/user-message",
+    badge: null,
   },
 ];
 

@@ -16,9 +16,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Bell, Search, Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Bell, Search, Moon, Sun } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -34,13 +34,13 @@ function Header({
 }: {
   breadcrumbs?: AdminLayoutProps["breadcrumbs"];
 }) {
-  const [isDark, setIsDark] = React.useState(false);
+  // const [isDark, setIsDark] = React.useState(false);
 
   return (
     <header className="sticky top-0 z-40 flex h-16 w-full shrink-0 items-center justify-between gap-4 border-b border-border/40 bg-background/80 backdrop-blur-xl px-4 lg:px-6">
       {/* Left Side - Trigger & Breadcrumbs */}
       <div className="flex items-center gap-3">
-        {/* <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors" /> */}
+        <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors" />
         <Separator orientation="vertical" className="h-5 bg-border/60" />
 
         {breadcrumbs && breadcrumbs.length > 0 && (
@@ -106,7 +106,7 @@ function Header({
                     {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </Button> */}
 
-        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-semibold text-xs shadow-md hover:shadow-lg transition-shadow cursor-pointer">
+        <div className="h-8 w-8 rounded-full bg-linear-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white font-semibold text-xs shadow-md hover:shadow-lg transition-shadow cursor-pointer">
           A
         </div>
       </div>

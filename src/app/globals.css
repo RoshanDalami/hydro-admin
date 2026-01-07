@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -131,4 +132,78 @@
   .cancel-btn {
     @apply border-red-600  text-red-600 hover:text-red-600;
   }
+}
+
+.cms-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.cms-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+.cms-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cms-content table th,
+.cms-content table td {
+  border: 1px solid #d1d5db; /* light gray */
+  padding: 8px;
+}
+
+.cms-content table tr:nth-child(even) {
+  background-color: #f9fafb; /* optional zebra stripes */
+}
+
+/* Prose styles for project detail view */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  display: table;
+}
+
+.prose th {
+  background-color: hsl(var(--muted));
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border: 1px solid hsl(var(--border));
+  font-weight: 600;
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border: 1px solid hsl(var(--border));
+}
+
+.prose tr:nth-child(even) {
+  background-color: hsl(var(--muted) / 0.3);
+}
+
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+  display: block;
+}
+
+.prose figure {
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.prose figure img {
+  margin: 0;
+}
+
+.prose figcaption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
 }
