@@ -144,7 +144,7 @@ function BannerView() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {data?.length === 0 && (
+      {(data?.length ?? 0) < 9 && (
         <div className="flex justify-end mb-4">
           <Button onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700">
             <Plus className="w-4 h-4 mr-2" /> Add Banner
