@@ -8,6 +8,7 @@ export type TActivities = {
   id: number;
   title: string;
   content: string;
+  contentNp?: string | null;
   startDate: string;
   endDate: string;
   isActive: boolean;
@@ -19,6 +20,7 @@ export type TActivities = {
 export type TActivitiesPayload = {
   title: string;
   content: string;
+  contentNp?: string;
   startDate: string;
   endDate: string;
   isActive: boolean;

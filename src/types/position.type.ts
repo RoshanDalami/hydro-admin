@@ -1,6 +1,7 @@
 export type TPosition = {
   id: number;
   title: string;
+  titleNp?: string;
   isActive: boolean;
 };
 
@@ -13,10 +14,12 @@ export type TPositionResponse = {
 
 export type TCreatePositionPayload = {
   title: string;
+  titleNp?: string;
 };
 export type TUpdatePositionPayload = {
   id: number;
   title: string;
+  titleNp?: string;
 };
 
 export type TCreatePositionResponse = {

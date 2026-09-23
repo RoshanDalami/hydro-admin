@@ -1,6 +1,8 @@
 export type TTeamMember = {
   id: number;
   memberName: string;
+  memberNameNp?: string;
+
   positionId: number;
   roleId: number;
   teamCategoryId: number;
@@ -23,6 +25,8 @@ export type TTeamMemberResponse = {
 
 export type TCreateTeamMemberPayload = {
   memberName: string;
+  memberNameNp?: string;
+
   positionId: number;
   roleId: number;
   teamCategoryId: number;

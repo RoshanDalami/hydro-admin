@@ -1,6 +1,7 @@
 export type TTeamCategory = {
   id: number;
   title: string;
+  titleNp?: string;
   isActive: boolean;
 };
 
@@ -19,9 +20,11 @@ export type TTeamCategoryByIdResponse = {
 
 export type TCreateTeamCategoryPayload = {
   title: string;
+  titleNp?: string;
 };
 export type TUpdateTeamCategoryPayload = {
   title: string;
+  titleNp?: string;
   id: number;
 };
 

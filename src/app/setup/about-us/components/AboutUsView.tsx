@@ -108,17 +108,39 @@ function AboutUsView() {
                     <Pencil className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
-
                 </div>
-                <div className="p-5 border border-dashed rounded-md bg-gray-50 dark:bg-card dark:border-border">
-                  <div
-                    className="prose prose-neutral dark:prose-invert max-w-none
-                    [&_table]:border-collapse [&_table]:w-full
-                    [&_th]:border [&_th]:border-gray-300 dark:[&_th]:border-gray-700 [&_th]:p-2
-                    [&_td]:border [&_td]:border-gray-300 dark:[&_td]:border-gray-700 [&_td]:p-2
-                    prose-li:text-gray-800 dark:prose-li:text-gray-200"
-                    dangerouslySetInnerHTML={{ __html: data[0].content || "" }}
-                  />
+                <div className="grid gap-4 lg:grid-cols-2">
+                  <div className="p-5 border border-dashed rounded-md bg-gray-50 dark:bg-card dark:border-border">
+                    <h3 className="mb-4 text-base font-semibold">
+                      About Us (English)
+                    </h3>
+                    <div
+                      className="prose prose-neutral dark:prose-invert max-w-none
+                      [&_table]:border-collapse [&_table]:w-full
+                      [&_th]:border [&_th]:border-gray-300 dark:[&_th]:border-gray-700 [&_th]:p-2
+                      [&_td]:border [&_td]:border-gray-300 dark:[&_td]:border-gray-700 [&_td]:p-2
+                      prose-li:text-gray-800 dark:prose-li:text-gray-200"
+                      dangerouslySetInnerHTML={{
+                        __html: data[0].content || "",
+                      }}
+                    />
+                  </div>
+                  <div className="p-5 border border-dashed rounded-md bg-gray-50 dark:bg-card dark:border-border">
+                    <h3 className="mb-4 text-base font-semibold">
+                      About Us (Nepali)
+                    </h3>
+                    <div
+                      lang="ne"
+                      className="prose prose-neutral dark:prose-invert max-w-none
+                      [&_table]:border-collapse [&_table]:w-full
+                      [&_th]:border [&_th]:border-gray-300 dark:[&_th]:border-gray-700 [&_th]:p-2
+                      [&_td]:border [&_td]:border-gray-300 dark:[&_td]:border-gray-700 [&_td]:p-2
+                      prose-li:text-gray-800 dark:prose-li:text-gray-200"
+                      dangerouslySetInnerHTML={{
+                        __html: data[0].contentNp || "",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             )}

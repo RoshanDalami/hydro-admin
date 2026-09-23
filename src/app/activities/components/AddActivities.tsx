@@ -10,10 +10,23 @@ import LoadingButtonCircle from "@/components/reusable/LoadingButtonCircle";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { TActivities } from "@/types/activities.type";
+import NepaliTransliterationTextarea from "@/components/reusable/NepaliTransliterationTextarea";
 
 const CKEditor = dynamic(() => import("@/components/reusable/CKEditor"), {
   ssr: false,
 });
+
+const plainTextToHtml = (value: string) =>
+  value
+    .split("\n")
+    .map((line) => {
+      const escaped = line
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+      return `<p>${escaped || "<br>"}</p>`;
+    })
+    .join("");
 
 function AddActivities({
   setOpen,
@@ -27,6 +40,8 @@ function AddActivities({
   const isEditMode = !!editData;
   const [title, setTitle] = useState(editData?.title || "");
   const [content, setContent] = useState(editData?.content || "");
+  const [contentNp, setContentNp] = useState(editData?.contentNp || "");
+  const [nepaliDraft, setNepaliDraft] = useState("");
   const [startDate, setStartDate] = useState(editData?.startDate || "");
   const [endDate, setEndDate] = useState(editData?.endDate || "");
   const [isActive, setIsActive] = useState(editData?.isActive ?? true);
@@ -43,6 +58,7 @@ function AddActivities({
     if (isEditMode && editData) {
       setTitle(editData.title);
       setContent(editData.content);
+      setContentNp(editData.contentNp || "");
       setStartDate(editData.startDate);
       setEndDate(editData.endDate);
       setIsActive(editData.isActive);
@@ -64,6 +80,7 @@ function AddActivities({
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
+    formData.append("contentNp", contentNp);
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
     formData.append("isActive", String(isActive));
@@ -90,8 +107,28 @@ function AddActivities({
         />
       </div>
       <div className="flex flex-col gap-2">
-        <label className="font-medium">Content</label>
+        <label className="font-medium">Content (English)</label>
         <CKEditor value={content} onChange={setContent} />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label className="font-medium">Content (Nepali)</label>
+        <CKEditor value={contentNp} onChange={setContentNp} />
+        <div className="mt-2 flex flex-col gap-2 rounded-md border border-dashed p-3">
+          <p className="text-sm font-medium">Romanized Nepali typing helper</p>
+          <p className="text-sm text-muted-foreground">
+            Type Romanized Nepali here and choose a suggestion. The converted
+            text appears in the editor above. Example: namaste {"→"} {"नमस्ते"}
+          </p>
+          <NepaliTransliterationTextarea
+            value={nepaliDraft}
+            onChange={(value) => {
+              setNepaliDraft(value);
+              setContentNp(plainTextToHtml(value));
+            }}
+            rows={4}
+            disabled={isCreating || isUpdating}
+          />
+        </div>
       </div>
       <div className="flex gap-2">
         <div className="flex flex-col gap-2 w-1/2">
@@ -155,7 +192,7 @@ function AddActivities({
                   onClick={() => {
                     setImages((prev) => prev.filter((_, i) => i !== idx));
                     setImagePreviews((prev) =>
-                      prev.filter((_, i) => i !== idx)
+                      prev.filter((_, i) => i !== idx),
                     );
                   }}
                   className="absolute top-1 right-1 bg-white/80 rounded-full p-0.5 hover:bg-red-500 hover:text-white transition-colors z-10 cursor-pointer opacity-0 group-hover:opacity-100"

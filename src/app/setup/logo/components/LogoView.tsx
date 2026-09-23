@@ -31,13 +31,17 @@ function LogoView() {
   const onSuccess = () => {
     onClose();
     refetch();
-  }
-
+  };
 
   return (
     <AnimationWrapper>
       <DialogModal open={open} setOpen={setOpen}>
-        <AddEditLogo isEdit={edit} data={editData as TLogo} onClose={onClose} onSuccess={onSuccess} />
+        <AddEditLogo
+          isEdit={edit}
+          data={editData as TLogo}
+          onClose={onClose}
+          onSuccess={onSuccess}
+        />
       </DialogModal>
       <div className="flex justify-end my-3">
         <Button onClick={() => handleEdit(LogoData as TLogo)}>
@@ -58,9 +62,19 @@ function LogoView() {
               <span>{LogoData?.name}</span>
             </h1>
             <h1>
+              <span className="font-bold text-lg"> Company Name (Nepali):</span>{" "}
+              <span>{LogoData?.nameNp}</span>
+            </h1>
+            <h1>
               <span className="font-bold text-lg">Slogan:</span>{" "}
               <span>
                 {LogoData?.slogan ? LogoData?.slogan : " No Slogan Given"}
+              </span>
+            </h1>
+            <h1>
+              <span className="font-bold text-lg">Slogan (Nepali):</span>{" "}
+              <span>
+                {LogoData?.sloganNp ? LogoData?.sloganNp : " No Slogan Given"}
               </span>
             </h1>
           </div>

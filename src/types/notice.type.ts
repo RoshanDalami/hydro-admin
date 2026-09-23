@@ -10,7 +10,9 @@ export type TNoticeMedia = {
 export type TNotice = {
   id: number;
   title: string;
+  titleNp?: string;
   content: string;
+  contentNp?: string;
   publishDate: string;
   time: string;
   isActive: boolean;
@@ -28,7 +30,9 @@ export type TNoticeResponse = {
 
 export type TCreateNoticePayload = {
   title: string;
+  titleNp?: string;
   content: string;
+  contentNp?: string;
   publishDate: string;
   time: string;
   medias: File[] | null;

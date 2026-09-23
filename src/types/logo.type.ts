@@ -2,7 +2,9 @@ export type TLogo = {
   id: number;
   url: string;
   name: string;
+  nameNp?: string;
   slogan: string;
+  sloganNp?: string;
   createdAt: string;
   updatedAt: string;
 };

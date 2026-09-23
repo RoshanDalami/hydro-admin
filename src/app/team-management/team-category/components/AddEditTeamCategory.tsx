@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import FormModalHeader from "@/components/reusable/FormModalHeader";
 import {
@@ -9,6 +9,7 @@ import {
 import LoadingButtonCircle from "@/components/reusable/LoadingButtonCircle";
 import { X } from "lucide-react";
 import { TTeamCategory } from "@/types/team-category.type";
+import NepaliTransliterationInput from "@/components/reusable/NepaliTransliterationInput";
 
 type Props = {
   isEdit: boolean;
@@ -20,6 +21,7 @@ type Props = {
 type FormValues = {
   teamCategory: {
     title: string;
+    titleNp: string;
   }[];
 };
 
@@ -32,7 +34,7 @@ function AddEditTeamCategory({ isEdit, editData, onClose, onSuccess }: Props) {
     reset,
   } = useForm<FormValues>({
     defaultValues: {
-      teamCategory: [{ title: "" }],
+      teamCategory: [{ title: "", titleNp: "" }],
     },
   });
 
@@ -52,7 +54,9 @@ function AddEditTeamCategory({ isEdit, editData, onClose, onSuccess }: Props) {
   useEffect(() => {
     if (isEdit && editData) {
       reset({
-        teamCategory: [{ title: editData.title }],
+        teamCategory: [
+          { title: editData.title, titleNp: editData.titleNp ?? "" },
+        ],
       });
     }
   }, [isEdit, editData, reset]);
@@ -64,6 +68,7 @@ function AddEditTeamCategory({ isEdit, editData, onClose, onSuccess }: Props) {
         await updateTeamCategory({
           id: editData.id,
           title: data.teamCategory[0].title,
+          titleNp: data.teamCategory[0].titleNp,
         });
       } else {
         await createTeamCategory(data.teamCategory);
@@ -86,21 +91,38 @@ function AddEditTeamCategory({ isEdit, editData, onClose, onSuccess }: Props) {
         <div className="flex flex-col gap-4">
           {fields.map((field, index) => (
             <div key={field.id} className="flex gap-2 items-start">
-              <div className="flex-1 flex flex-col gap-2">
-                <label>Title</label>
-                <input
-                  type="text"
-                  className="input-style"
-                  placeholder="e.g: Board of Directors"
-                  {...register(`teamCategory.${index}.title`, {
-                    required: "Title is required",
-                  })}
-                />
-                {errors.teamCategory?.[index]?.title && (
-                  <span className="text-red-500 text-sm">
-                    {errors.teamCategory[index]?.title?.message}
-                  </span>
-                )}
+              <div className="flex-1 grid grid-cols-1 gap-2 md:grid-cols-2">
+                <div className="flex flex-col gap-2">
+                  <label>Title (English)</label>
+                  <input
+                    type="text"
+                    className="input-style"
+                    placeholder="e.g: Board of Directors"
+                    {...register(`teamCategory.${index}.title`, {
+                      required: "English title is required",
+                    })}
+                  />
+                  {errors.teamCategory?.[index]?.title && (
+                    <span className="text-red-500 text-sm">
+                      {errors.teamCategory[index]?.title?.message}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label>Title (Nepali)</label>
+                  <Controller
+                    control={control}
+                    name={`teamCategory.${index}.titleNp`}
+                    render={({ field }) => (
+                      <NepaliTransliterationInput
+                        {...field}
+                        value={field.value ?? ""}
+                        placeholder="Romanized Nepali ma type garnuhos..."
+                      />
+                    )}
+                  />
+                </div>
               </div>
 
               {!isEdit && fields.length > 1 && (
@@ -120,7 +142,7 @@ function AddEditTeamCategory({ isEdit, editData, onClose, onSuccess }: Props) {
             <Button
               type="button"
               variant="outline"
-              onClick={() => append({ title: "" })}
+              onClick={() => append({ title: "", titleNp: "" })}
               className="w-fit"
             >
               + Add Category
